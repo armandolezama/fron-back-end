@@ -1,0 +1,24 @@
+{
+    "contactList": [ 
+        {
+            "id": 0,
+            "name" : "Mary Goepper Mayer",
+            "email" : "marygoepper@contact.com",
+            "ubication" : "Estados Unidos"
+        },
+
+        {
+            "id": 1,
+            "name" : "Albert Einstein",
+            "email" : "aeinstein@contact.com",
+            "ubication" : "Alemania"
+        },
+
+        {
+            "id": 2,
+            "name" : "Robert Openheimer",
+            "email" : "ropenheimer@contact.com",
+            "ubication" : "Estados Unidos"
+        }
+    ]
+}
