@@ -16,6 +16,7 @@ app.listen(port, function(){
 
 app.use(cors());
 app.use(express.json());
+app.use('/public', express.static('contactos'));
 
 app.get('/', getUserInfo); //Trae algo
 app.get('/:id', getSingleUser);
