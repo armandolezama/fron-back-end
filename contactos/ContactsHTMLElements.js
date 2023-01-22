@@ -1,49 +1,45 @@
-const htmlReferencesModel = {
-  cardsList: () => {},
-  cardsIcon: () => {},
-  iconsForm: () => {},
-  submitButton: () => {},
-  submitEditButton: () => {},
-  newData: () => {},
-  editedData: () => {},
-  modalActive: () => {},
-  modalEdit: () => {},
-  modalPost: () => {},
-  modalDelete: () => {},
-}
-
 export class ContactsHTMLElements {
-  constructor(htmlReferences = htmlReferencesModel, url = ''){
-    this.htmlReferences = htmlReferences;
+  constructor(url = ''){
+    this.cardsList = document.getElementById('cards-list');
+    this.cardsIcon = document.getElementById('cards-icon');
+    this.iconsForm = document.getElementById('icons-form');
+    this.submitButton = document.getElementById('submit-button');
+    this.submitEditButton = document.getElementById('submit-edit-button');
+    this.newData = document.getElementById('new-data');
+    this.editedData = document.getElementById('edit-data');
+    this.modalActive = document.querySelector('.modal');
+    this.modalEdit = document.querySelector('.modal-edit');
+    this.modalPost = document.querySelector('.modal-post-user');
+    this.modalDelete = document.querySelector('.modal-delete');
     this.url = url;
 
-    this.htmlReferences.submitButton.addEventListener('click', event => {
+    this.submitButton.addEventListener('click', event => {
       event.preventDefault()
   
       if(
-          this.htmlReferences.newData.name.value == "" ||
-          this.htmlReferences.newData.email.value == "" ||
-          this.htmlReferences.newData.location.value == ""
+          this.newData.name.value == "" ||
+          this.newData.email.value == "" ||
+          this.newData.location.value == ""
       ){
           alert('Por favor, llene todos los campos antes de enviar')
       } else {
-          this.htmlReferences.modalActive.classList.add('active');
-          this.htmlReferences.modalPost.classList.add('active');
+          this.modalActive.classList.add('active');
+          this.modalPost.classList.add('active');
       }
   
     });
 
-    this.htmlReferences.submitEditButton.addEventListener('click', event => {
+    this.submitEditButton.addEventListener('click', event => {
       event.preventDefault()
       let edited = {};
-      edited.name = this.htmlReferences.editedData.name.value;
-      edited.email = this.htmlReferences.editedData.email.value;
-      edited.ubication = this.htmlReferences.editedData.location.value;
+      edited.name = this.editedData.name.value;
+      edited.email = this.editedData.email.value;
+      edited.ubication = this.editedData.location.value;
   
       if(
-          this.htmlReferences.editedData.name.value == "" ||
-          this.htmlReferences.editedData.email.value == "" ||
-          this.htmlReferences.editedData.location.value == ""
+          this.editedData.name.value == "" ||
+          this.editedData.email.value == "" ||
+          this.editedData.location.value == ""
       ){
           alert('Por favor, llene los campos antes de enviar la actualización')
       } else {
@@ -55,7 +51,7 @@ export class ContactsHTMLElements {
                 }
           }
       
-          let id = this.htmlReferences.iconsForm.formIcons.value;
+          let id = this.iconsForm.formIcons.value;
           console.log(id)
           fetch(`${url}/${id}`, putData)
               .then(response => response.json()
@@ -70,22 +66,31 @@ export class ContactsHTMLElements {
                       cards[i].click();
                   }
       
-                  this.htmlReferences.modalActive.classList.remove('active');
-                  this.htmlReferences.modalEdit.classList.remove('active');
+                  this.modalActive.classList.remove('active');
+                  this.modalEdit.classList.remove('active');
               }
           }
           ).catch(error => console.error('Error:', error));
       }
   
-  });
+    });
+
+    this.modalActive.addEventListener('click', function(event){
+        if(event.target !== event.currentTarget){
+            modalActive.classList.remove('active');
+            modalEdit.classList.remove('active');
+            modalDelete.classList.remove('active');
+            modalPost.classList.remove('active');
+        }
+    });
   }
 
   rendercontacts(){}
 
   retrieveDataFromForm(){
-    const name = this.htmlReferences.editedData.name.value;
-    const email = this.htmlReferences.editedData.email.value;
-    const location = this.htmlReferences.editedData.location.value;
+    const name = this.editedData.name.value;
+    const email = this.editedData.email.value;
+    const location = this.editedData.location.value;
 
     return {
       name, email, location
@@ -94,9 +99,9 @@ export class ContactsHTMLElements {
 
   sendData() {
 
-    const newName = this.htmlReferences.newData.name.value;
-    const newEmail = this.htmlReferences.newData.email.value;
-    const newLocation = this.htmlReferences.newData.location.value;
+    const newName = this.newData.name.value;
+    const newEmail = this.newData.email.value;
+    const newLocation = this.newData.location.value;
 
     const putData = {
         method: 'post',
@@ -118,16 +123,16 @@ export class ContactsHTMLElements {
         this.printIcons(responseJson);
     }
     ).catch(error => console.error('Error:', error));
-    this.htmlReferences.modalActive.classList.remove('active');
-    this.htmlReferences.modalPost.classList.remove('active');
-    this.htmlReferences.newData.name.value = "";
-    this.htmlReferences.newData.email.value = "";
-    this.htmlReferences.newData.location.value = "";
+    this.modalActive.classList.remove('active');
+    this.modalPost.classList.remove('active');
+    this.newData.name.value = "";
+    this.newData.email.value = "";
+    this.newData.location.value = "";
   }
 
   noSendData(){
-    this.htmlReferences.modalActive.classList.remove('active');
-    this.htmlReferences.modalPost.classList.remove('active');
+    this.modalActive.classList.remove('active');
+    this.modalPost.classList.remove('active');
   }
 
   async getContacts(){
@@ -152,7 +157,7 @@ export class ContactsHTMLElements {
         `;
     }
 
-    this.htmlReferences.iconsForm.innerHTML = cardsIcons;
+    this.iconsForm.innerHTML = cardsIcons;
 
     const cards = document.querySelectorAll(".icons-input");
 
@@ -161,12 +166,12 @@ export class ContactsHTMLElements {
             const getData = {
                 method: 'get'
             };
-            let id = this.htmlReferences.iconsForm.formIcons.value;
+            let id = this.iconsForm.formIcons.value;
             fetch(`${this.url}/${id}`, getData).then(response => {
                 console.log(response);
                 return response.json();
             }).then(user => {
-              this.htmlReferences.cardsList.innerHTML = `
+              this.cardsList.innerHTML = `
                 <div class='card'> 
                     <div class="card-inner">
                         <h2 class="text-info">${user.name} </h2>
@@ -190,17 +195,17 @@ export class ContactsHTMLElements {
     if(iconsForm.formIcons.value == ""){
         alert('Por favor, seleccione un contacto');
     } else {
-        this.htmlReferences.modalActive.classList.add('active');
-        this.htmlReferences.modalEdit.classList.add('active');
+        this.modalActive.classList.add('active');
+        this.modalEdit.classList.add('active');
         let id = iconsForm.formIcons.value;
         const getData = {method: 'get'};
         fetch(`${this.url}/${id}`, getData).then(response => {
             console.log(response);
             return response.json();
         }).then(user => {
-            this.htmlReferences.editedData.name.value = user.name;
-            this.htmlReferences.editedData.email.value = user.email;
-            this.htmlReferences.editedData.location.value = user.ubication;
+            this.editedData.name.value = user.name;
+            this.editedData.email.value = user.email;
+            this.editedData.location.value = user.ubication;
         });
 
     }
@@ -210,8 +215,8 @@ export class ContactsHTMLElements {
     if(iconsForm.formIcons.value == ""){
         alert('Por favor, seleccione un contacto')
     } else {
-        this.htmlReferences.modalActive.classList.add('active');
-        this.htmlReferences.modalDelete.classList.add('active');
+        this.modalActive.classList.add('active');
+        this.modalDelete.classList.add('active');
     }
 }
 
@@ -228,14 +233,14 @@ export class ContactsHTMLElements {
         return response.json();
     }).then(responseJson => {
         this.printIcons(responseJson);
-        this.htmlReferences.cardsList.innerHTML = "";
-        this.htmlReferences.modalActive.classList.remove('active');
-        this.htmlReferences.modalDelete.classList.remove('active');
+        this.cardsList.innerHTML = "";
+        this.modalActive.classList.remove('active');
+        this.modalDelete.classList.remove('active');
     })
 };
 
   cancelDel() {
-    this.htmlReferences.modalActive.classList.remove('active');
-    this.htmlReferences.modalDelete.classList.remove('active');
+    this.modalActive.classList.remove('active');
+    this.modalDelete.classList.remove('active');
 };
 }
