@@ -12,7 +12,7 @@ const htmlReferencesModel = {
   modalDelete: () => {},
 }
 
-class ContactsHTMLElements {
+export class ContactsHTMLElements {
   constructor(htmlReferences = htmlReferencesModel, url = ''){
     this.htmlReferences = htmlReferences;
     this.url = url;

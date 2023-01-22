@@ -1,3 +1,5 @@
+import { ContactsHTMLElements } from './ContactsHTMLElements.js'
+
 const cardsList = document.getElementById('cards-list');
 const cardsIcon = document.getElementById('cards-icon');
 const iconsForm = document.getElementById('icons-form');
