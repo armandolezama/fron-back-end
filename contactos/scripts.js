@@ -1,45 +1,30 @@
-const cardsList = document.getElementById('cards-list');
-const cardsIcon = document.getElementById('cards-icon');
-const iconsForm = document.getElementById('icons-form');
-const submitButton = document.getElementById('submit-button');
-const submitEditButton = document.getElementById('submit-edit-button');
-const newData = document.getElementById('new-data');
-const editedData = document.getElementById('edit-data');
-const modalActive = document.querySelector('.modal');
-const modalEdit = document.querySelector('.modal-edit');
-const modalPost = document.querySelector('.modal-post-user');
-const modalDelete = document.querySelector('.modal-delete');
+import { ContactTemplateController } from "./ContactTemplateController.js";
 
-const modalSendDataButton = document.querySelector('#modal-send-data-button');
-const modalCancelSendDataButton = document.querySelector('#modal-cancel-send-data-button');
-const editUserOption = document.querySelector('#edit-user-option');
-const deleteUserOption = document.querySelector('#delete-user-option');
-const modalDeleteContactButton = document.querySelector('#modal-delete-contact-button');
-const modalCancelDeleteContactButton = document.querySelector('#modal-cancel-delete-contact-button');
+const templateController = new ContactTemplateController();
 
 const url = 'http://localhost:8000';
 
-submitButton.addEventListener('click', function(event){
+templateController.submitButton.addEventListener('click', function(event){
     event.preventDefault()
 
     if(
-        newData.name.value == "" ||
-        newData.email.value == "" ||
-        newData.location.value == ""
+        templateController.newData.name.value == "" ||
+        templateController.newData.email.value == "" ||
+        templateController.newData.location.value == ""
     ){
         alert('Por favor, llene todos los campos antes de enviar')
     } else {
-        modalActive.classList.add('active');
-        modalPost.classList.add('active');
+        templateController.modalActive.classList.add('active');
+        templateController.modalPost.classList.add('active');
     }
 
 });
 
 function sendData() {
 
-    const newName = newData.name.value;
-    const newEmail = newData.email.value;
-    const newLocation = newData.location.value;
+    const newName = templateController.newData.name.value;
+    const newEmail = templateController.newData.email.value;
+    const newLocation = templateController.newData.location.value;
 
     const putData = {
         method: 'post',
@@ -61,11 +46,11 @@ function sendData() {
         printIcons(responseJson);
     }
     ).catch(error => console.error('Error:', error));
-    modalActive.classList.remove('active');
-    modalPost.classList.remove('active');
-    newData.name.value = "";
-    newData.email.value = "";
-    newData.location.value = "";
+    templateController.modalActive.classList.remove('active');
+    templateController.modalPost.classList.remove('active');
+    templateController.newData.name.value = "";
+    templateController.newData.email.value = "";
+    templateController.newData.location.value = "";
 
 };
 
@@ -74,17 +59,17 @@ function noSendData(){
     modalPost.classList.remove('active');
 }
 
-submitEditButton.addEventListener('click', function(event){
+templateController.submitEditButton.addEventListener('click', function(event){
     event.preventDefault()
     let edited = {};
-    edited.name = editedData.name.value;
-    edited.email = editedData.email.value;
-    edited.ubication = editedData.location.value;
+    edited.name = templateController.editedData.name.value;
+    edited.email = templateController.editedData.email.value;
+    edited.ubication = templateController.editedData.location.value;
 
     if(
-        editedData.name.value == "" ||
-        editedData.email.value == "" ||
-        editedData.location.value == ""
+        templateController.editedData.name.value == "" ||
+        templateController.editedData.email.value == "" ||
+        templateController.editedData.location.value == ""
     ){
         alert('Por favor, llene los campos antes de enviar la actualización')
     } else {
@@ -96,7 +81,7 @@ submitEditButton.addEventListener('click', function(event){
               }
         }
     
-        let id = iconsForm.formIcons.value;
+        let id = templateController.iconsForm.formIcons.value;
         console.log(id)
         fetch(`${url}/${id}`, putData)
             .then(response => response.json()
@@ -111,8 +96,8 @@ submitEditButton.addEventListener('click', function(event){
                     cards[i].click();
                 }
     
-                modalActive.classList.remove('active');
-                modalEdit.classList.remove('active');
+                templateController.modalActive.classList.remove('active');
+                templateController.modalEdit.classList.remove('active');
             }
         }
         ).catch(error => console.error('Error:', error));
@@ -147,7 +132,7 @@ function printIcons(list){
         `;
     }
 
-    iconsForm.innerHTML = cardsIcons;
+    templateController.iconsForm.innerHTML = cardsIcons;
 
     const cards = document.querySelectorAll(".icons-input");
 
@@ -156,12 +141,12 @@ function printIcons(list){
             const getData = {
                 method: 'get'
             };
-            let id = iconsForm.formIcons.value;
+            let id = templateController.iconsForm.formIcons.value;
             fetch(`${url}/${id}`, getData).then(function(response){
                 console.log(response);
                 return response.json();
             }).then(function(user){
-                cardsList.innerHTML = `
+                templateController.cardsList.innerHTML = `
                 <div class='card'> 
                     <div class="card-inner">
                         <h2 class="text-info">${user.name} </h2>
@@ -180,33 +165,33 @@ function printIcons(list){
 
 }
 
-modalActive.addEventListener('click', function(){
+templateController.modalActive.addEventListener('click', function(event){
     if(event.target !== this){
         return
     } else {
-        modalActive.classList.remove('active');
-        modalEdit.classList.remove('active');
-        modalDelete.classList.remove('active');
-        modalPost.classList.remove('active');
+        templateController.modalActive.classList.remove('active');
+        templateController.modalEdit.classList.remove('active');
+        templateController.modalDelete.classList.remove('active');
+        templateController.modalPost.classList.remove('active');
     }
 });
 
 function editUser() {
 
-    if(iconsForm.formIcons.value == ""){
+    if(templateController.iconsForm.formIcons.value == ""){
         alert('Por favor, seleccione un contacto');
     } else {
-        modalActive.classList.add('active');
-        modalEdit.classList.add('active');
-        let id = iconsForm.formIcons.value;
+        templateController.modalActive.classList.add('active');
+        templateController.modalEdit.classList.add('active');
+        let id = templateController.iconsForm.formIcons.value;
         const getData = {method: 'get'};
         fetch(`${url}/${id}`, getData).then(function(response){
             console.log(response);
             return response.json();
         }).then(function(user){
-            editedData.name.value = user.name;
-            editedData.email.value = user.email;
-            editedData.location.value = user.ubication;
+            templateController.editedData.name.value = user.name;
+            templateController.editedData.email.value = user.email;
+            templateController.editedData.location.value = user.ubication;
         });
 
     }
@@ -230,11 +215,11 @@ function editUser() {
 }
 
 function deletUser(){
-    if(iconsForm.formIcons.value == ""){
+    if(templateController.iconsForm.formIcons.value == ""){
         alert('Por favor, seleccione un contacto')
     } else {
-        modalActive.classList.add('active');
-        modalDelete.classList.add('active');
+        templateController.modalActive.classList.add('active');
+        templateController.modalDelete.classList.add('active');
     }
 }
 
@@ -246,14 +231,14 @@ function delContact() {
           }
     }
 
-    let id = iconsForm.formIcons.value;
+    let id = templateController.iconsForm.formIcons.value;
     fetch(`${url}/${id}`, delData).then(function(response){
         return response.json();
     }).then(function(responseJson){
         printIcons(responseJson);
-        cardsList.innerHTML = "";
-        modalActive.classList.remove('active');
-        modalDelete.classList.remove('active');
+        templateController.cardsList.innerHTML = "";
+        templateController.modalActive.classList.remove('active');
+        templateController.modalDelete.classList.remove('active');
     })
 };
 
@@ -262,9 +247,9 @@ function cancelDel() {
     modalDelete.classList.remove('active');
 };
 
-modalSendDataButton.addEventListener('click', sendData);
-modalCancelSendDataButton.addEventListener('click', noSendData);
-editUserOption.addEventListener('click', editUser);
-deleteUserOption.addEventListener('click', deletUser);
-modalDeleteContactButton.addEventListener('click', delContact);
-modalCancelDeleteContactButton.addEventListener('click', cancelDel);
+templateController.modalSendDataButton.addEventListener('click', sendData);
+templateController.modalCancelSendDataButton.addEventListener('click', noSendData);
+templateController.editUserOption.addEventListener('click', editUser);
+templateController.deleteUserOption.addEventListener('click', deletUser);
+templateController.modalDeleteContactButton.addEventListener('click', delContact);
+templateController.modalCancelDeleteContactButton.addEventListener('click', cancelDel);
