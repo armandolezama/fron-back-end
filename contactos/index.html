@@ -33,8 +33,8 @@
                     </div>
 
                     <div class="form-buttons">
-                        <button class="option-form" onclick="editUser()" >Editar contacto</button>
-                        <button class="option-form" onclick="deletUser()" >Borrar contacto</button>
+                        <button id="edit-user-option" class="option-form">Editar contacto</button>
+                        <button id="delete-user-option" class="option-form">Borrar contacto</button>
                     </div>
                 </section>
             </div>
@@ -59,8 +59,8 @@
                 </div>
 
                 <div class="send-data-question">
-                    <button onclick="delContact()" >Eliminar</button>
-                    <button onclick="cancelDel()" >Cancelar</button>
+                    <button id="modal-delete-contact-button">Eliminar</button>
+                    <button id="modal-cancel-delete-contact-button">Cancelar</button>
             </section>
 
             <section class="modal-post-user">
@@ -69,13 +69,13 @@
                 </div>
 
                 <div class="send-data-question">
-                    <button onclick="sendData()" >Sí, enviar</button>
-                    <button onclick="noSendData()" >No enviar</button>
+                    <button id="modal-send-data-button">Sí, enviar</button>
+                    <button id="modal-cancel-send-data-button">No enviar</button>
                 </div>
             </section>
 
         </div>
-        <script src="scripts.js"></script>
+        <script type="module" src="scripts.js"></script>
     </body>
 </html>
 

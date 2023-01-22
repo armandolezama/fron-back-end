@@ -10,6 +10,13 @@ const modalEdit = document.querySelector('.modal-edit');
 const modalPost = document.querySelector('.modal-post-user');
 const modalDelete = document.querySelector('.modal-delete');
 
+const modalSendDataButton = document.querySelector('#modal-send-data-button');
+const modalCancelSendDataButton = document.querySelector('#modal-cancel-send-data-button');
+const editUserOption = document.querySelector('#edit-user-option');
+const deleteUserOption = document.querySelector('#delete-user-option');
+const modalDeleteContactButton = document.querySelector('#modal-delete-contact-button');
+const modalCancelDeleteContactButton = document.querySelector('#modal-cancel-delete-contact-button');
+
 const url = 'http://localhost:8000';
 
 submitButton.addEventListener('click', function(event){
@@ -254,3 +261,10 @@ function cancelDel() {
     modalActive.classList.remove('active');
     modalDelete.classList.remove('active');
 };
+
+modalSendDataButton.addEventListener('click', sendData);
+modalCancelSendDataButton.addEventListener('click', noSendData);
+editUserOption.addEventListener('click', editUser);
+deleteUserOption.addEventListener('click', deletUser);
+modalDeleteContactButton.addEventListener('click', delContact);
+modalCancelDeleteContactButton.addEventListener('click', cancelDel);
