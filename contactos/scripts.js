@@ -13,52 +13,33 @@ const sendData = async () => {
     printIcons(contactApi.response);
 
     templateController.disableModal();
-    
+
     templateController.clearNewContactForm();
 };
 
-templateController.submitEditButton.addEventListener('click', function(event){
+templateController.submitEditButton.addEventListener('click', async event => {
     event.preventDefault()
-    let edited = {};
-    edited.name = templateController.editedData.name.value;
-    edited.email = templateController.editedData.email.value;
-    edited.ubication = templateController.editedData.location.value;
+    const { name, email, ubication } = templateController.getEditContactFormData();
 
     if(
-        templateController.editedData.name.value == "" ||
-        templateController.editedData.email.value == "" ||
-        templateController.editedData.location.value == ""
+        name == "" ||
+        email == "" ||
+        ubication == ""
     ){
         alert('Por favor, llene los campos antes de enviar la actualización')
     } else {
-        const putData = {
-            method: 'put',
-            body: JSON.stringify(edited),
-            headers:{
-                'Content-Type': 'application/json'
-              }
-        }
+
+        const id = templateController.iconsForm.formIcons.value;
+
+        await contactApi.editContact({id, name, email, ubication });
+
+        printIcons(contactApi.response);
+
+        templateController.updateCardClicked(id);
+
+        templateController.disableModal();
     
-        let id = templateController.iconsForm.formIcons.value;
-        console.log(id)
-        fetch(`${url}/${id}`, putData)
-            .then(response => response.json()
-            )
-        .then(function(responseJson){
-            printIcons(responseJson);
-            const cards = document.querySelectorAll(".icons-input");
-            console.log(id)
-            for(let i = 0; i < cards.length; i++){
-                console.log(cards[i].value == id)
-                if(cards[i].value == id){
-                    cards[i].click();
-                }
-    
-                templateController.modalActive.classList.remove('active');
-                templateController.modalEdit.classList.remove('active');
-            }
-        }
-        ).catch(error => console.error('Error:', error));
+        templateController.clearNewContactForm();
     }
 
 });

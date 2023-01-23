@@ -33,7 +33,24 @@ export class ContactAPI {
     this.response = await this.fetch();
   };
 
-  async editContact(payload = contactModel){};
+  async editContact(payload = contactModel){
+    const { name, email, ubication } = payload;
+    this.fetchConfig = {
+      method: 'put',
+      body: JSON.stringify(
+          { 
+              name,
+              email,
+              ubication,
+          }
+      ),
+      headers:{
+          'Content-Type': 'application/json'
+        }
+    };
+
+    this.response = await this.fetch(payload.id);
+  };
 
   async createContact(payload = contactModel){
     const { name, email, ubication } = payload;

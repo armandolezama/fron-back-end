@@ -17,7 +17,6 @@ export class ContactTemplateController {
     this.deleteUserOption = document.querySelector('#delete-user-option');
     this.modalDeleteContactButton = document.querySelector('#modal-delete-contact-button');
     this.modalCancelDeleteContactButton = document.querySelector('#modal-cancel-delete-contact-button');
-
     this.loadListeners();
   };
 
@@ -51,6 +50,14 @@ export class ContactTemplateController {
     return {name, email, ubication};
   }
 
+  getEditContactFormData(){
+    const name = this.editedData.name.value;
+    const email = this.editedData.email.value;
+    const ubication = this.editedData.location.value;
+
+    return {name, email, ubication};
+  }
+
   disableModal(){
     this.modalActive.classList.remove('active');
     this.modalPost.classList.remove('active');
@@ -60,5 +67,14 @@ export class ContactTemplateController {
     this.newData.name.value = "";
     this.newData.email.value = "";
     this.newData.location.value = "";
+  }
+
+  updateCardClicked(id = 0 || ''){
+    const cards = document.querySelectorAll(".icons-input");
+    for(let i = 0; i < cards.length; i++){
+        if(cards[i].value == id){
+            cards[i].click();
+        }
+    }
   }
 }
