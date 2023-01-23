@@ -69,6 +69,8 @@ export class ContactTemplateController {
 
   disableModal(){
     this.modalActive.classList.remove('active');
+    this.modalEdit.classList.remove('active');
+    this.modalDelete.classList.remove('active');
     this.modalPost.classList.remove('active');
   }
 

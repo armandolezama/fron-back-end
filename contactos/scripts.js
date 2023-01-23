@@ -153,8 +153,8 @@ function delContact() {
 };
 
 function cancelDel() {
-    modalActive.classList.remove('active');
-    modalDelete.classList.remove('active');
+    templateController.modalActive.classList.remove('active');
+    templateController.modalDelete.classList.remove('active');
 };
 
 templateController.modalSendDataButton.addEventListener('click', sendData);
