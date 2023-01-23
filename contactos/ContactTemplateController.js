@@ -56,7 +56,7 @@ export class ContactTemplateController {
     const email = this.newData.email.value;
     const ubication = this.newData.location.value;
 
-    return {name, email, ubication};
+    return { name, email, ubication };
   }
 
   getEditContactFormData(){
@@ -64,7 +64,7 @@ export class ContactTemplateController {
     const email = this.editedData.email.value;
     const ubication = this.editedData.location.value;
 
-    return {name, email, ubication};
+    return { name, email, ubication };
   }
 
   disableModal(){
@@ -80,6 +80,12 @@ export class ContactTemplateController {
     this.newData.location.value = "";
   }
 
+  setEditContactForm({ name = '', email = '', ubication = '' }){
+    this.editedData.name.value = name;
+    this.editedData.email.value = email;
+    this.editedData.location.value = ubication;
+  }
+
   updateCardClicked(id = 0 || ''){
     const cards = document.querySelectorAll(".icons-input");
     for(let i = 0; i < cards.length; i++){
@@ -91,7 +97,7 @@ export class ContactTemplateController {
 
   updateCardView(user){
     this.cardView.innerHTML = `
-    <div class='card'> 
+      <div class='card'> 
         <div class="card-inner">
             <h2 class="text-info">${user.name} </h2>
             <p class="text-info"> ${user.email}</p>
@@ -100,7 +106,7 @@ export class ContactTemplateController {
         <div class="card-inner">
             <img class="img-contact" src="https://cdn3.iconfinder.com/data/icons/communication/512/contact_A-512.png" alt="">
         </div>
-    </div>
+      </div>
     `;
   }
 
@@ -109,10 +115,10 @@ export class ContactTemplateController {
     for(let user of list.contactList){
       this.iconsForm.innerHTML += 
        `
-           <label class='icon' for="icon${user.id}">
-               <h4 class="text-info">${user.name} </h4>
-           </label>
-           <input class="icons-input" type="radio" name="formIcons" id="icon${user.id}" value="${user.id}">
+        <label class='icon' for="icon${user.id}">
+            <h4 class="text-info">${user.name} </h4>
+        </label>
+        <input class="icons-input" type="radio" name="formIcons" id="icon${user.id}" value="${user.id}">
        `;
    }
   }
@@ -122,5 +128,10 @@ export class ContactTemplateController {
     for(const card of cards){
       card.addEventListener("change", handler);
     };
+  }
+
+  enableEditFormModal(){
+    this.modalActive.classList.add('active');
+    this.modalEdit.classList.add('active');
   }
 }

@@ -51,35 +51,26 @@ templateController.submitEditButton.addEventListener('click', async event => {
 
 });
 
-function printIcons(list){
-
-    templateController.printIcons(list);
-
-    templateController.setCardCustomEventHandler(async () => {
-        const id = templateController.iconsForm.formIcons.value;
-        await contactApi.getSingleContact(id);
-        templateController.updateCardView(contactApi.response);
-    });
+const cardEventHandler = async () => {
+    const id = templateController.iconsForm.formIcons.value;
+    await contactApi.getSingleContact(id);
+    templateController.updateCardView(contactApi.response);
 }
 
-function editUser() {
+const printIcons = list => {
+    templateController.printIcons(list);
+    templateController.setCardCustomEventHandler(cardEventHandler);
+}
+
+const editUser = async () => {
 
     if(templateController.iconsForm.formIcons.value == ""){
         alert('Por favor, seleccione un contacto');
     } else {
-        templateController.modalActive.classList.add('active');
-        templateController.modalEdit.classList.add('active');
-        let id = templateController.iconsForm.formIcons.value;
-        const getData = {method: 'get'};
-        fetch(`${url}/${id}`, getData).then(function(response){
-            console.log(response);
-            return response.json();
-        }).then(function(user){
-            templateController.editedData.name.value = user.name;
-            templateController.editedData.email.value = user.email;
-            templateController.editedData.location.value = user.ubication;
-        });
-
+        const id = templateController.iconsForm.formIcons.value;
+        await contactApi.getSingleContact(id);
+        templateController.enableEditFormModal();
+        templateController.setEditContactForm(contactApi.response);
     }
 
     /*
