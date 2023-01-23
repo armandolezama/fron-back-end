@@ -12,6 +12,9 @@ export class ContactAPI {
       method: '',
       body: '',
     };
+    this.defaultHeaders = {
+      'Content-Type': 'application/json'
+    };
     this.fetchConfig = {...this.defaultFetchConfig}
     this.response = {};
   };
@@ -44,9 +47,7 @@ export class ContactAPI {
               ubication,
           }
       ),
-      headers:{
-          'Content-Type': 'application/json'
-        }
+      headers: this.defaultHeaders,
     };
 
     this.response = await this.fetch(payload.id);
@@ -63,15 +64,20 @@ export class ContactAPI {
               ubication,
           }
       ),
-      headers:{
-          'Content-Type': 'application/json'
-        }
+      headers: this.defaultHeaders,
     };
 
     this.response = await this.fetch();
   };
 
-  async deleteContact(payload = contactModel.id){};
+  async deleteContact(payload = contactModel.id){
+    this.fetchConfig = {
+      method: 'delete',
+      headers: this.defaultHeaders,
+    }
+
+    this.response = await this.fetch(payload);
+  };
 
   async fetch(direction = ''){
     const response = await fetch(`${this.url}/${direction}`, this.fetchConfig);

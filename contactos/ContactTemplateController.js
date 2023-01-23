@@ -134,4 +134,9 @@ export class ContactTemplateController {
     this.modalActive.classList.add('active');
     this.modalEdit.classList.add('active');
   }
+
+  enableDeleteFormModal(){
+    this.modalActive.classList.add('active');
+    this.modalDelete.classList.add('active');
+  }
 }

@@ -72,56 +72,29 @@ const editUser = async () => {
         templateController.enableEditFormModal();
         templateController.setEditContactForm(contactApi.response);
     }
-
-    /*
-    let id = iconsForm.formIcons.value;
-    fetch(`${url}/${id}`, getData).then(function(response){
-        console.log(response);
-        return response.json();
-    }).then(function(user){
-        cardView.innerHTML = `
-        <label class="form-text" for="name"> Nombre</label>
-        <input class="input-form" type="text" name="inputName" placeholder="Escribe el nuevo nombre" id="name">
-        <label class="form-text" for="email"> Correo electrónico </label>
-        <input class="input-form" type="text" name="inputEmail" placeholder="Escribe el nuevo correo" id="email">
-        <label class="form-text" for="location"> Ubicación</label>
-        <input class="input-form" type="text" name="inputLocation" placeholder="Escribe la nueva ubicación" id="location">
-        <input id="submit-button" class="input-form" type="submit">
-        `
-    });*/
 }
 
 function deletUser(){
     if(templateController.iconsForm.formIcons.value == ""){
         alert('Por favor, seleccione un contacto')
     } else {
-        templateController.modalActive.classList.add('active');
-        templateController.modalDelete.classList.add('active');
+        templateController.enableDeleteFormModal();
     }
 }
 
-function delContact() {
-    const delData = {
-        method: 'delete',
-        headers:{
-            'Content-Type': 'application/json'
-          }
-    }
+const delContact = async () => {
+    const id = templateController.iconsForm.formIcons.value;
+    
+    await contactApi.deleteContact(id)
+    
+    printIcons(contactApi.response);
 
-    let id = templateController.iconsForm.formIcons.value;
-    fetch(`${url}/${id}`, delData).then(function(response){
-        return response.json();
-    }).then(function(responseJson){
-        printIcons(responseJson);
-        templateController.cardView.innerHTML = "";
-        templateController.modalActive.classList.remove('active');
-        templateController.modalDelete.classList.remove('active');
-    })
+    templateController.cardView.innerHTML = "";
+    templateController.disableModal();
 };
 
 function cancelDel() {
-    templateController.modalActive.classList.remove('active');
-    templateController.modalDelete.classList.remove('active');
+    templateController.disableModal();
 };
 
 templateController.modalSendDataButton.addEventListener('click', sendData);
