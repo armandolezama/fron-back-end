@@ -8,19 +8,13 @@ const contactApi = new ContactAPI(url);
 
 const sendData = async () => {
 
-    const newName = templateController.newData.name.value;
-    const newEmail = templateController.newData.email.value;
-    const newLocation = templateController.newData.location.value;
+    await contactApi.createContact(templateController.getNewContactFormData());
 
-    await contactApi.createContact({name: newName, email: newEmail, ubication: newLocation})
     printIcons(contactApi.response);
 
-    templateController.modalActive.classList.remove('active');
-    templateController.modalPost.classList.remove('active');
-    templateController.newData.name.value = "";
-    templateController.newData.email.value = "";
-    templateController.newData.location.value = "";
-
+    templateController.disableModal();
+    
+    templateController.clearNewContactForm();
 };
 
 templateController.submitEditButton.addEventListener('click', function(event){

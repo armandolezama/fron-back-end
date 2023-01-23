@@ -39,8 +39,26 @@ export class ContactTemplateController {
     });
 
     this.modalCancelSendDataButton.addEventListener('click', () => {
-      this.modalActive.classList.remove('active');
-      this.modalPost.classList.remove('active');
-  });
+      this.disableModal();
+    });
+  }
+
+  getNewContactFormData(){
+    const name = this.newData.name.value;
+    const email = this.newData.email.value;
+    const ubication = this.newData.location.value;
+
+    return {name, email, ubication};
+  }
+
+  disableModal(){
+    this.modalActive.classList.remove('active');
+    this.modalPost.classList.remove('active');
+  }
+
+  clearNewContactForm(){
+    this.newData.name.value = "";
+    this.newData.email.value = "";
+    this.newData.location.value = "";
   }
 }
