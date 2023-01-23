@@ -57,33 +57,13 @@ function printIcons(list){
 
     const cards = document.querySelectorAll(".icons-input");
 
-    for(let card of cards){
-        card.addEventListener("change", function(){
-            const getData = {
-                method: 'get'
-            };
-            let id = templateController.iconsForm.formIcons.value;
-            fetch(`${url}/${id}`, getData).then(function(response){
-                console.log(response);
-                return response.json();
-            }).then(function(user){
-                templateController.cardsList.innerHTML = `
-                <div class='card'> 
-                    <div class="card-inner">
-                        <h2 class="text-info">${user.name} </h2>
-                        <p class="text-info"> ${user.email}</p>
-                        <p class="text-info"> ${user.ubication}</p>
-                    </div>
-                    <div class="card-inner">
-                        <img class="img-contact" src="https://cdn3.iconfinder.com/data/icons/communication/512/contact_A-512.png" alt="">
-                    </div>
-                </div>
-                `
-            });
-            
+    for(const card of cards){
+        card.addEventListener("change", async () => {
+            const id = templateController.iconsForm.formIcons.value;
+            await contactApi.getSingleContact(id);
+            templateController.updateCardView(contactApi.response);
         });
-    }
-
+    };
 }
 
 function editUser() {
@@ -112,7 +92,7 @@ function editUser() {
         console.log(response);
         return response.json();
     }).then(function(user){
-        cardsList.innerHTML = `
+        cardView.innerHTML = `
         <label class="form-text" for="name"> Nombre</label>
         <input class="input-form" type="text" name="inputName" placeholder="Escribe el nuevo nombre" id="name">
         <label class="form-text" for="email"> Correo electrónico </label>
@@ -146,7 +126,7 @@ function delContact() {
         return response.json();
     }).then(function(responseJson){
         printIcons(responseJson);
-        templateController.cardsList.innerHTML = "";
+        templateController.cardView.innerHTML = "";
         templateController.modalActive.classList.remove('active');
         templateController.modalDelete.classList.remove('active');
     })

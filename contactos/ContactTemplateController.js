@@ -1,6 +1,6 @@
 export class ContactTemplateController {
   constructor(){
-    this.cardsList = document.getElementById('cards-list');
+    this.cardView = document.getElementById('cards-list');
     this.cardsIcon = document.getElementById('cards-icon');
     this.iconsForm = document.getElementById('icons-form');
     this.submitButton = document.getElementById('submit-button');
@@ -33,7 +33,7 @@ export class ContactTemplateController {
       } else {
           this.modalActive.classList.add('active');
           this.modalPost.classList.add('active');
-      }
+      };
   
     });
 
@@ -47,7 +47,7 @@ export class ContactTemplateController {
           this.modalEdit.classList.remove('active');
           this.modalDelete.classList.remove('active');
           this.modalPost.classList.remove('active');
-      }
+      };
   });
   }
 
@@ -85,8 +85,23 @@ export class ContactTemplateController {
     for(let i = 0; i < cards.length; i++){
         if(cards[i].value == id){
             cards[i].click();
-        }
-    }
+        };
+    };
+  }
+
+  updateCardView(user){
+    this.cardView.innerHTML = `
+    <div class='card'> 
+        <div class="card-inner">
+            <h2 class="text-info">${user.name} </h2>
+            <p class="text-info"> ${user.email}</p>
+            <p class="text-info"> ${user.ubication}</p>
+        </div>
+        <div class="card-inner">
+            <img class="img-contact" src="https://cdn3.iconfinder.com/data/icons/communication/512/contact_A-512.png" alt="">
+        </div>
+    </div>
+    `;
   }
 
   printIcons(list){
