@@ -6,6 +6,13 @@ const url = 'http://localhost:8000';
 const templateController = new ContactTemplateController();
 const contactApi = new ContactAPI(url);
 
+const getContacts = async () => {
+    
+    await contactApi.getAllContacts();
+
+    printIcons(contactApi.response);
+}
+
 const sendData = async () => {
 
     await contactApi.createContact(templateController.getNewContactFormData());
@@ -43,15 +50,6 @@ templateController.submitEditButton.addEventListener('click', async event => {
     }
 
 });
-
-const getContacts = async () => {
-    
-    await contactApi.getAllContacts();
-
-    printIcons(contactApi.response);
-}
-
-getContacts();
 
 function printIcons(list){
     let cardsIcons = '';
@@ -186,3 +184,5 @@ templateController.editUserOption.addEventListener('click', editUser);
 templateController.deleteUserOption.addEventListener('click', deletUser);
 templateController.modalDeleteContactButton.addEventListener('click', delContact);
 templateController.modalCancelDeleteContactButton.addEventListener('click', cancelDel);
+
+getContacts();
