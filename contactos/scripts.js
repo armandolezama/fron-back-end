@@ -86,17 +86,6 @@ function printIcons(list){
 
 }
 
-templateController.modalActive.addEventListener('click', function(event){
-    if(event.target !== this){
-        return
-    } else {
-        templateController.modalActive.classList.remove('active');
-        templateController.modalEdit.classList.remove('active');
-        templateController.modalDelete.classList.remove('active');
-        templateController.modalPost.classList.remove('active');
-    }
-});
-
 function editUser() {
 
     if(templateController.iconsForm.formIcons.value == ""){

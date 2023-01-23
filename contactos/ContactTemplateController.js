@@ -40,6 +40,15 @@ export class ContactTemplateController {
     this.modalCancelSendDataButton.addEventListener('click', () => {
       this.disableModal();
     });
+
+    this.modalActive.addEventListener('click', event  => {
+      if(event.target === event.currentTarget){
+          this.modalActive.classList.remove('active');
+          this.modalEdit.classList.remove('active');
+          this.modalDelete.classList.remove('active');
+          this.modalPost.classList.remove('active');
+      }
+  });
   }
 
   getNewContactFormData(){
