@@ -10,8 +10,6 @@ export class ContactBookApp {
     
     this.contactApi = new ContactAPI(this.url);
 
-    console.log(this.templateController)
-
   }
 
   async getContacts(){
