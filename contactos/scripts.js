@@ -1,51 +1,20 @@
 import { ContactTemplateController } from "./ContactTemplateController.js";
-
-const templateController = new ContactTemplateController();
+import { ContactAPI } from "./ContactAPI.js";
 
 const url = 'http://localhost:8000';
 
-templateController.submitButton.addEventListener('click', function(event){
-    event.preventDefault()
+const templateController = new ContactTemplateController();
+const contactApi = new ContactAPI(url);
 
-    if(
-        templateController.newData.name.value == "" ||
-        templateController.newData.email.value == "" ||
-        templateController.newData.location.value == ""
-    ){
-        alert('Por favor, llene todos los campos antes de enviar')
-    } else {
-        templateController.modalActive.classList.add('active');
-        templateController.modalPost.classList.add('active');
-    }
-
-});
-
-function sendData() {
+const sendData = async () => {
 
     const newName = templateController.newData.name.value;
     const newEmail = templateController.newData.email.value;
     const newLocation = templateController.newData.location.value;
 
-    const putData = {
-        method: 'post',
-        body: JSON.stringify(
-            { 
-                name: newName,
-                email: newEmail,
-                ubication: newLocation
-            }
-        ),
-        headers:{
-            'Content-Type': 'application/json'
-          }
-    }
-    fetch(`${url}`, putData)
-        .then(response => response.json()
-        )
-    .then(function(responseJson){
-        printIcons(responseJson);
-    }
-    ).catch(error => console.error('Error:', error));
+    await contactApi.createContact({name: newName, email: newEmail, ubication: newLocation})
+    printIcons(contactApi.response);
+
     templateController.modalActive.classList.remove('active');
     templateController.modalPost.classList.remove('active');
     templateController.newData.name.value = "";
@@ -53,11 +22,6 @@ function sendData() {
     templateController.newData.location.value = "";
 
 };
-
-function noSendData(){
-    modalActive.classList.remove('active');
-    modalPost.classList.remove('active');
-}
 
 templateController.submitEditButton.addEventListener('click', function(event){
     event.preventDefault()
@@ -248,7 +212,7 @@ function cancelDel() {
 };
 
 templateController.modalSendDataButton.addEventListener('click', sendData);
-templateController.modalCancelSendDataButton.addEventListener('click', noSendData);
+
 templateController.editUserOption.addEventListener('click', editUser);
 templateController.deleteUserOption.addEventListener('click', deletUser);
 templateController.modalDeleteContactButton.addEventListener('click', delContact);
