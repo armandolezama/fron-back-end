@@ -52,18 +52,8 @@ templateController.submitEditButton.addEventListener('click', async event => {
 });
 
 function printIcons(list){
-    let cardsIcons = '';
-    for(let user of list.contactList){
-       cardsIcons += 
-        `
-            <label class='icon' for="icon${user.id}">
-                <h4 class="text-info">${user.name} </h4>
-            </label>
-            <input class="icons-input" type="radio" name="formIcons" id="icon${user.id}" value="${user.id}">
-        `;
-    }
 
-    templateController.iconsForm.innerHTML = cardsIcons;
+    templateController.printIcons(list);
 
     const cards = document.querySelectorAll(".icons-input");
 

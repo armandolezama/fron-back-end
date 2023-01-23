@@ -77,4 +77,17 @@ export class ContactTemplateController {
         }
     }
   }
+
+  printIcons(list){
+    this.iconsForm.innerHTML = '';
+    for(let user of list.contactList){
+      this.iconsForm.innerHTML += 
+       `
+           <label class='icon' for="icon${user.id}">
+               <h4 class="text-info">${user.name} </h4>
+           </label>
+           <input class="icons-input" type="radio" name="formIcons" id="icon${user.id}" value="${user.id}">
+       `;
+   }
+  };
 }
