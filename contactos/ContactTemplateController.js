@@ -41,7 +41,7 @@ export class ContactTemplateController {
       this.disableModal();
     });
 
-    this.modalActive.addEventListener('click', event  => {
+    this.modalActive.addEventListener('click', event => {
       if(event.target === event.currentTarget){
           this.modalActive.classList.remove('active');
           this.modalEdit.classList.remove('active');
@@ -115,5 +115,12 @@ export class ContactTemplateController {
            <input class="icons-input" type="radio" name="formIcons" id="icon${user.id}" value="${user.id}">
        `;
    }
-  };
+  }
+  
+  setCardCustomEventHandler(handler){
+    const cards = document.querySelectorAll(".icons-input");
+    for(const card of cards){
+      card.addEventListener("change", handler);
+    };
+  }
 }

@@ -55,15 +55,11 @@ function printIcons(list){
 
     templateController.printIcons(list);
 
-    const cards = document.querySelectorAll(".icons-input");
-
-    for(const card of cards){
-        card.addEventListener("change", async () => {
-            const id = templateController.iconsForm.formIcons.value;
-            await contactApi.getSingleContact(id);
-            templateController.updateCardView(contactApi.response);
-        });
-    };
+    templateController.setCardCustomEventHandler(async () => {
+        const id = templateController.iconsForm.formIcons.value;
+        await contactApi.getSingleContact(id);
+        templateController.updateCardView(contactApi.response);
+    });
 }
 
 function editUser() {
