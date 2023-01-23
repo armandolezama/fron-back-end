@@ -44,17 +44,11 @@ templateController.submitEditButton.addEventListener('click', async event => {
 
 });
 
-function getContacts(){
-    const getData = {
-        method: 'get'
-    };
-    fetch(url, getData).then(function(response){
-        console.log(response);
-        return response.json();
-    }).then(function(responseJson) {
-        console.log(responseJson);
-        printIcons(responseJson);
-    });
+const getContacts = async () => {
+    
+    await contactApi.getAllContacts();
+
+    printIcons(contactApi.response);
 }
 
 getContacts();

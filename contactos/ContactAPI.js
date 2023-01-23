@@ -16,18 +16,18 @@ export class ContactAPI {
     this.response = {};
   };
 
+  //TO-DO: add validation and error handling to prevent 
+  //empty payload and get all contacts instead single one
   async getSingleContact(payload = contactModel.id){
     this.fetchConfig = {
       method: 'get',
-      body: '',
     };
-    this.response = await this.fetch(`${this.url}/${payload}`);
+    this.response = await this.fetch(payload);
   };
 
   async getAllContacts(){
     this.fetchConfig = {
       method: 'get',
-      body: '',
     };
 
     this.response = await this.fetch();
